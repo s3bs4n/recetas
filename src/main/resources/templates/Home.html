@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recetas</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <h1 style="text-align: center;">Lista de Recetas</h1>
+    <div class="card-container">
+        <!-- Iterar sobre cada receta y mostrarla en una card -->
+        <th:block th:each="receta : ${recetas}">
+            <div class="card">
+                <div class="card-title" th:text="${receta}"></div>
+                <button class="btn" onclick="verDetalles('[[${receta}]]')">Ver Detalles</button>
+            </div>
+        </th:block>
+    </div>
+
+    <!-- Modal para mostrar detalles de la receta -->
+    <div id="modalDetalles" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="cerrarModal()">&times;</span>
+            <h2 id="modalTitulo"></h2>
+            <p><strong>Tipo de Cocina:</strong> <span id="modalTipoCocina"></span></p>
+            <p><strong>País de Origen:</strong> <span id="modalPaisOrigen"></span></p>
+            <p><strong>Dificultad:</strong> <span id="modalDificultad"></span></p>
+            <p><strong>Tiempo de Cocción:</strong> <span id="modalTiempoCoccion"></span> minutos</p>
+            <p><strong>Ingredientes:</strong> <ul id="modalIngredientes"></ul></p>
+            <p><strong>Instrucciones:</strong> <span id="modalInstrucciones"></span></p>
+            <img id="modalFotografia" src="" alt="Imagen de la receta" />
+        </div>
+    </div>
+
+    <!-- JavaScript integrado para manejar el modal y la solicitud AJAX -->
+    <script>
+        const token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImF1dGhvcml0aWVzIjpbIlJPTEVfVVNFUiJdLCJpYXQiOjE3MzA3NTgzMTEsImV4cCI6MTczMTYyMjMxMX0.FyT4OA3yr9WQwQHaGlTVp9A5u3UY2m7IZyxN_qw4smozDNuVwGGCOOUs85j1XFCGc9MKbcawNQhkoPVxUpK0dQ";
+    
+        function verDetalles(nombreReceta) {
+    const url = `http://localhost:8082/api/recetas/buscar?nombre=${nombreReceta}`;
+
+    fetch(url, {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => {
+        console.log("Estado de la respuesta:", response.status); // Imprime el estado HTTP en la consola
+        if (response.status === 401 || response.status === 403) {
+            window.location.href = "/login"; // Redirige al login si no está autenticado
+            throw new Error("Usuario no autenticado");
+        }
+        if (!response.ok) {
+            throw new Error(`Error en la solicitud: ${response.status}`);
+        }
+        return response.json();
+    })
+    .then(data => {
+        document.getElementById('modalTitulo').innerText = data.nombre;
+        document.getElementById('modalTipoCocina').innerText = data.tipoCocina;
+        document.getElementById('modalPaisOrigen').innerText = data.paisOrigen;
+        document.getElementById('modalDificultad').innerText = data.dificultad;
+        document.getElementById('modalTiempoCoccion').innerText = data.tiempoCoccion;
+        document.getElementById('modalInstrucciones').innerText = data.instrucciones;
+
+        const ingredientesList = document.getElementById('modalIngredientes');
+        ingredientesList.innerHTML = ''; 
+        data.ingredientes.forEach(ingrediente => {
+            const li = document.createElement('li');
+            li.innerText = ingrediente;
+            ingredientesList.appendChild(li);
+        });
+
+        if (data.fotografia) {
+            document.getElementById('modalFotografia').src = `data:image/jpeg;base64,${data.fotografia}`;
+            document.getElementById('modalFotografia').style.display = 'block';
+        } else {
+            document.getElementById('modalFotografia').style.display = 'none';
+        }
+
+        document.getElementById('modalDetalles').style.display = 'block';
+    })
+    .catch(error => {
+        console.error('Error al obtener los detalles de la receta:', error);
+        if (error.message !== "Usuario no autenticado") {
+            alert('No se pudieron cargar los detalles de la receta.');
+        }
+    });
+}
+
+    
+        function cerrarModal() {
+            // Ocultar el modal
+            document.getElementById('modalDetalles').style.display = 'none';
+        }
+    </script>
+    
+</body>
+</html>

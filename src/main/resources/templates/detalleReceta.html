@@ -1,0 +1,24 @@
+<!-- src/main/resources/templates/detalleReceta.html -->
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalles de la Receta</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <h1 th:text="${receta.nombre}">Nombre de la Receta</h1>
+    <p><strong>Tipo de Cocina:</strong> <span th:text="${receta.tipoCocina}">Tipo de Cocina</span></p>
+    <p><strong>País de Origen:</strong> <span th:text="${receta.paisOrigen}">País de Origen</span></p>
+    <p><strong>Dificultad:</strong> <span th:text="${receta.dificultad}">Dificultad</span></p>
+    <p><strong>Tiempo de Cocción:</strong> <span th:text="${receta.tiempoCoccion}">Tiempo de Cocción</span> minutos</p>
+    <p><strong>Ingredientes:</strong></p>
+    <ul>
+        <li th:each="ingrediente : ${receta.ingredientes}" th:text="${ingrediente}">Ingrediente</li>
+    </ul>
+    <p><strong>Instrucciones:</strong> <span th:text="${receta.instrucciones}">Instrucciones</span></p>
+    <img th:src="'data:image/jpeg;base64,' + ${receta.fotografia}" alt="Imagen de la receta" />
+</body>
+</html>
