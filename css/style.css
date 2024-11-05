@@ -63,3 +63,46 @@ h1 {
 .btn:hover {
     background-color: #0056b3;
 }
+
+/* DETALLE RECETAS */
+/* Estilo general para la página de detalles */
+.detalle-receta-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background-color: #fff;
+}
+
+.detalle-titulo {
+    font-size: 2em;
+    margin-bottom: 15px;
+    text-align: center;
+    color: #333;
+}
+
+.detalle-info, .detalle-ingredientes, .detalle-instrucciones {
+    margin-bottom: 20px;
+}
+
+.detalle-info p, .detalle-ingredientes p, .detalle-instrucciones p {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.detalle-ingredientes ul {
+    padding-left: 20px;
+}
+
+.detalle-ingredientes li {
+    margin-bottom: 5px;
+}
+
+.detalle-imagen img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-top: 20px;
+}

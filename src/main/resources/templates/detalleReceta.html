@@ -1,24 +1,78 @@
-<!-- src/main/resources/templates/detalleReceta.html -->
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detalles de la Receta</title>
-    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        /* Estilos para la página de detalles */
+        .detalle-receta-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            background-color: #f9f9f9;
+        }
+
+        .detalle-titulo {
+            font-size: 2em;
+            margin-bottom: 15px;
+            text-align: center;
+            color: #333;
+        }
+
+        .detalle-info, .detalle-ingredientes, .detalle-instrucciones {
+            margin-bottom: 20px;
+        }
+
+        .detalle-info p, .detalle-ingredientes p, .detalle-instrucciones p {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .detalle-ingredientes ul {
+            padding-left: 20px;
+            list-style-type: disc;
+        }
+
+        .detalle-ingredientes li {
+            margin-bottom: 5px;
+        }
+
+        .detalle-imagen img {
+            display: block;
+            margin: 20px auto;
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        }
+    </style>
 </head>
 <body>
-    <h1 th:text="${receta.nombre}">Nombre de la Receta</h1>
-    <p><strong>Tipo de Cocina:</strong> <span th:text="${receta.tipoCocina}">Tipo de Cocina</span></p>
-    <p><strong>País de Origen:</strong> <span th:text="${receta.paisOrigen}">País de Origen</span></p>
-    <p><strong>Dificultad:</strong> <span th:text="${receta.dificultad}">Dificultad</span></p>
-    <p><strong>Tiempo de Cocción:</strong> <span th:text="${receta.tiempoCoccion}">Tiempo de Cocción</span> minutos</p>
-    <p><strong>Ingredientes:</strong></p>
-    <ul>
-        <li th:each="ingrediente : ${receta.ingredientes}" th:text="${ingrediente}">Ingrediente</li>
-    </ul>
-    <p><strong>Instrucciones:</strong> <span th:text="${receta.instrucciones}">Instrucciones</span></p>
-    <img th:src="'data:image/jpeg;base64,' + ${receta.fotografia}" alt="Imagen de la receta" />
+    <div class="detalle-receta-container">
+        <h1 class="detalle-titulo" th:text="${receta.nombre}">Nombre de la Receta</h1>
+        <div class="detalle-info">
+            <p><strong>Tipo de Cocina:</strong> <span th:text="${receta.tipoCocina}">Tipo de Cocina</span></p>
+            <p><strong>País de Origen:</strong> <span th:text="${receta.paisOrigen}">País de Origen</span></p>
+            <p><strong>Dificultad:</strong> <span th:text="${receta.dificultad}">Dificultad</span></p>
+            <p><strong>Tiempo de Cocción:</strong> <span th:text="${receta.tiempoCoccion}">Tiempo de Cocción</span> minutos</p>
+        </div>
+        <div class="detalle-ingredientes">
+            <p><strong>Ingredientes:</strong></p>
+            <ul>
+                <li th:each="ingrediente : ${receta.ingredientes}" th:text="${ingrediente}">Ingrediente</li>
+            </ul>
+        </div>
+        <div class="detalle-instrucciones">
+            <p><strong>Instrucciones:</strong></p>
+            <p th:text="${receta.instrucciones}">Instrucciones</p>
+        </div>
+        <div class="detalle-imagen">
+            <img th:src="'data:image/jpeg;base64,' + ${receta.fotografia}" alt="Imagen de la receta" />
+        </div>
+    </div>
 </body>
 </html>
