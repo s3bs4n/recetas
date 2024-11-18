@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,11 +24,15 @@
             color: #333;
         }
 
-        .detalle-info, .detalle-ingredientes, .detalle-instrucciones {
+        .detalle-info,
+        .detalle-ingredientes,
+        .detalle-instrucciones {
             margin-bottom: 20px;
         }
 
-        .detalle-info p, .detalle-ingredientes p, .detalle-instrucciones p {
+        .detalle-info p,
+        .detalle-ingredientes p,
+        .detalle-instrucciones p {
             font-weight: bold;
             margin-bottom: 5px;
         }
@@ -49,30 +54,81 @@
             border-radius: 8px;
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
         }
+
+        .detalle-recetas-wrapper {
+            display: flex;
+            gap: 20px;
+            /* Espacio entre las cajas */
+            justify-content: center;
+            /* Centra las cajas horizontalmente */
+            flex-wrap: wrap;
+            /* Permite que las cajas pasen a otra fila si el espacio es insuficiente */
+            margin: 20px auto;
+            /* Centrado global */
+        }
+        .caja-ancha {
+    flex: 2; /* La caja ocupará el doble de espacio que las demás */
+    max-width: 50%; /* Ajusta este porcentaje según necesites */
+}
+
     </style>
 </head>
+
 <body>
-    <div class="detalle-receta-container">
-        <h1 class="detalle-titulo" th:text="${receta.nombre}">Nombre de la Receta</h1>
-        <div class="detalle-info">
-            <p><strong>Tipo de Cocina:</strong> <span th:text="${receta.tipoCocina}">Tipo de Cocina</span></p>
-            <p><strong>País de Origen:</strong> <span th:text="${receta.paisOrigen}">País de Origen</span></p>
-            <p><strong>Dificultad:</strong> <span th:text="${receta.dificultad}">Dificultad</span></p>
-            <p><strong>Tiempo de Cocción:</strong> <span th:text="${receta.tiempoCoccion}">Tiempo de Cocción</span> minutos</p>
+    <div class="detalle-recetas-wrapper">
+
+        <div class="detalle-receta-container">
+            <h1 class="detalle-titulo" th:text="${receta.nombre}">Nombre de la Receta</h1>
+            <div class="detalle-info">
+                <div class="detalle-imagen">
+                    <img th:src="@{'../img/' + ${receta.fotografia}}" alt="Imagen de la receta" width="560"
+                        height="315" />
+                </div>
+                <p><strong>Tipo de Cocina:</strong> <span th:text="${receta.tipoCocina}">Tipo de Cocina</span></p>
+                <p><strong>País de Origen:</strong> <span th:text="${receta.paisOrigen}">País de Origen</span></p>
+                <p><strong>Dificultad:</strong> <span th:text="${receta.dificultad}">Dificultad</span></p>
+                <p><strong>Tiempo de Cocción:</strong> <span th:text="${receta.tiempoCoccion}">Tiempo de Cocción</span>
+                    minutos</p>
+            </div>
+            <div class="detalle-ingredientes">
+                <p><strong>Ingredientes:</strong></p>
+                <ul>
+                    <li th:each="ingrediente : ${receta.ingredientes}" th:text="${ingrediente}">Ingrediente</li>
+                </ul>
+            </div>
+            <div class="detalle-instrucciones">
+                <p><strong>Instrucciones:</strong></p>
+                <p th:text="${receta.instrucciones}">Instrucciones</p>
+            </div>
+
+
+
+
+            <div class="detalle-video">
+                <p><strong>Video de la receta:</strong></p>
+                <iframe th:src="${receta.videoUrl}" width="560" height="315" frameborder="0" allowfullscreen></iframe>
+            </div>
+
         </div>
-        <div class="detalle-ingredientes">
-            <p><strong>Ingredientes:</strong></p>
-            <ul>
-                <li th:each="ingrediente : ${receta.ingredientes}" th:text="${ingrediente}">Ingrediente</li>
-            </ul>
-        </div>
-        <div class="detalle-instrucciones">
-            <p><strong>Instrucciones:</strong></p>
-            <p th:text="${receta.instrucciones}">Instrucciones</p>
-        </div>
-        <div class="detalle-imagen">
-            <img th:src="'data:image/jpeg;base64,' + ${receta.fotografia}" alt="Imagen de la receta" />
+        <div class="detalle-receta-container caja-ancha">
+            <h1 class="detalle-titulo">Comentarios</h1>
+            <div th:if="${receta.comentarios != null}">
+                <div th:each="comentario : ${receta.comentarios}">
+                    <p>
+                        <strong>Comentario:</strong> <span th:text="${comentario.comentario}"></span>
+                    </p>
+                    <p>
+                        <strong>Valoración:</strong> <span th:text="${comentario.valoracion}"></span>
+                    </p>
+                    <hr />
+                </div>
+            </div>
+            <div th:if="${receta.comentarios == null}">
+                <p>No hay comentarios disponibles.</p>
+            </div>
         </div>
     </div>
+
 </body>
+
 </html>

@@ -4,12 +4,14 @@ package com.recetas.recetas;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -17,9 +19,9 @@ import java.util.Map;
 public class RecetaService {
 
     private static final String API_URL = "http://localhost:8082/api/recetas/buscar";
-    private static final String TOKEN = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImF1dGhvcml0aWVzIjpbIlJPTEVfVVNFUiJdLCJpYXQiOjE3MzA3NTgzMTEsImV4cCI6MTczMTYyMjMxMX0.FyT4OA3yr9WQwQHaGlTVp9A5u3UY2m7IZyxN_qw4smozDNuVwGGCOOUs85j1XFCGc9MKbcawNQhkoPVxUpK0dQ";
+    private static final String TOKEN = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImF1dGhvcml0aWVzIjpbIlJPTEVfVVNFUiJdLCJpYXQiOjE3MzE4NjUxOTUsImV4cCI6MTczMjcyOTE5NX0.1gNztFGRrm_6r0-Hb6joE_JehH41L2E7KSwGdn9llNHHITJn7-w-QuYIbrh_q6cbh8q7vASyWl3it310DIn_Pw";
 
-    public Map<String, Object> obtenerDetalleReceta(String nombreReceta) {
+    public Map<String, Object> obtenerDetallesReceta(String nombreReceta) {
         RestTemplate restTemplate = new RestTemplate();
 
         // Construye la URL con el parámetro de búsqueda
@@ -38,9 +40,50 @@ public class RecetaService {
 
         return response.getBody();
     }
-    
+
+    // public List<String> obtenerRecetas() {
+    // // Simulación de recetas; este método debería conectar con una API o base de
+    // datos
+    // return List.of("qwdqwd", "Sushi", "Tacos al Pastor", "Pizza Margherita", "Pad
+    // Thai", "Ceviche", "Falafel", "Ramen", "Chili con Carne", "Brigadeiro");
+    // }
+
     public List<String> obtenerRecetas() {
-        // Simulación de recetas; este método debería conectar con una API o base de datos
-        return List.of("Paella", "Sushi", "Tacos al Pastor", "Pizza Margherita", "Pad Thai", "Ceviche", "Falafel", "Ramen", "Chili con Carne", "Brigadeiro");
+        RestTemplate restTemplate = new RestTemplate();
+
+        // URL del endpoint
+        String url = "http://localhost:8082/api/recetas/nombres";
+
+        // Configura encabezados si es necesario (por ejemplo, autorización)
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + TOKEN); // Asegúrate de que TOKEN es válido
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+
+        // Realiza la solicitud GET al endpoint
+        ResponseEntity<List> response = restTemplate.exchange(url, HttpMethod.GET, entity, List.class);
+
+        // Devuelve la lista de nombres
+        return response.getBody();
+    }
+
+    //////////////////////////////////////////////////////////////////////////
+
+    // Método para crear una nueva receta
+    public ResponseEntity<Receta> crearReceta(Receta nuevaReceta) {
+        RestTemplate restTemplate = new RestTemplate();
+
+        // Configura encabezados
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + TOKEN); // Asegúrate de que TOKEN es válido
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        // Configura la solicitud
+        HttpEntity<Receta> request = new HttpEntity<>(nuevaReceta, headers);
+
+        // URL del endpoint
+        String url = "http://localhost:8082/api/recetas/crear";
+
+        // Realiza la solicitud POST
+        return restTemplate.postForEntity(url, request, Receta.class);
     }
 }

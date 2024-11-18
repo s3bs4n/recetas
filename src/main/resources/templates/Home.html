@@ -8,13 +8,21 @@
 </head>
 <body>
     <h1 style="text-align: center;">Lista de Recetas</h1>
+    <div style="text-align: center; margin-bottom: 20px;">
+        <a th:href="@{/crearReceta}" class="btn">Crear Nueva Receta</a>
+    </div>
     <div class="card-container">
+        
         <!-- Iterar sobre cada receta y mostrarla en una card -->
         <th:block th:each="receta : ${recetas}">
             <div class="card">
+                <!-- <div class="detalle-imagen">
+                    <img th:src="@{'../img/' + ${receta.fotografia}}" alt="Imagen de la receta" width="560" height="315"/>
+                </div> -->
                 <div class="card-title" th:text="${receta}"></div>
                 <!-- Cambia el botón a un enlace que redirige a la página de detalles -->
                 <a th:href="@{/receta/detalles(nombre=${receta})}" class="btn">Ver Detalles</a>
+                
             </div>
         </th:block>
     </div>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Receta</title>
+    <style>
+        /* Estilos básicos para el formulario */
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            background-color: #f9f9f9;
+        }
+
+        .form-container h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-container label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .form-container input,
+        .form-container textarea,
+        .form-container select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .form-container button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .form-container button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h1>Crear Nueva Receta</h1>
+        <form id="recetaForm">
+            <label for="nombre">Nombre de la receta:</label>
+            <input type="text" id="nombre" name="nombre" required>
+
+            <label for="tipoCocina">Tipo de Cocina:</label>
+            <input type="text" id="tipoCocina" name="tipoCocina" required>
+
+            <label for="paisOrigen">País de Origen:</label>
+            <input type="text" id="paisOrigen" name="paisOrigen" required>
+
+            <label for="dificultad">Dificultad:</label>
+            <select id="dificultad" name="dificultad" required>
+                <option value="Fácil">Fácil</option>
+                <option value="Media">Media</option>
+                <option value="Alta">Alta</option>
+            </select>
+
+            <label for="instrucciones">Instrucciones:</label>
+            <textarea id="instrucciones" name="instrucciones" rows="5" required></textarea>
+
+            <label for="tiempoCoccion">Tiempo de Cocción (en minutos):</label>
+            <input type="number" id="tiempoCoccion" name="tiempoCoccion" required>
+
+            <label for="ingredientes">Ingredientes (separados por comas):</label>
+            <input type="text" id="ingredientes" name="ingredientes" required>
+
+            <label for="fotografia">URL de la Fotografía:</label>
+            <input type="url" id="fotografia" name="fotografia">
+
+            <label for="videoUrl">URL del Video:</label>
+            <input type="url" id="videoUrl" name="videoUrl">
+
+            <button type="button" id="submitButton">Crear Receta</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('submitButton').addEventListener('click', () => {
+            const form = document.getElementById('recetaForm');
+            
+            // Crear objeto JSON con los datos del formulario
+            const receta = {
+                nombre: form.nombre.value,
+                tipoCocina: form.tipoCocina.value,
+                paisOrigen: form.paisOrigen.value,
+                dificultad: form.dificultad.value,
+                instrucciones: form.instrucciones.value,
+                tiempoCoccion: parseInt(form.tiempoCoccion.value, 10),
+                ingredientes: form.ingredientes.value.split(',').map(item => item.trim()),
+                fotografia: form.fotografia.value,
+                videoUrl: form.videoUrl.value
+            };
+
+            // Hacer POST con Fetch
+            fetch('http://localhost:8082/api/recetas/crear', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(receta)
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert('Receta creada exitosamente');
+                    form.reset();
+                } else {
+                    alert('Error al crear la receta');
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    </script>
+</body>
+</html>
