@@ -78,11 +78,12 @@
     <div class="detalle-recetas-wrapper">
 
         <div class="detalle-receta-container">
-            <h1 class="detalle-titulo" th:text="${receta.nombre}">Nombre de la Receta</h1>
+            <!-- <h1 class="detalle-titulo" th:text="${receta.nombre}">Nombre de la Receta</h1>
+              -->
+            
             <div class="detalle-info">
                 <div class="detalle-imagen">
-                    <img th:src="@{'../img/' + ${receta.fotografia}}" alt="Imagen de la receta" width="560"
-                        height="315" />
+                        <img th:src="${receta.fotografia}" alt="Imagen de la receta" width="560" height="315" />
                 </div>
                 <p><strong>Tipo de Cocina:</strong> <span th:text="${receta.tipoCocina}">Tipo de Cocina</span></p>
                 <p><strong>País de Origen:</strong> <span th:text="${receta.paisOrigen}">País de Origen</span></p>
@@ -126,6 +127,42 @@
             <div th:if="${receta.comentarios == null}">
                 <p>No hay comentarios disponibles.</p>
             </div>
+
+
+
+
+            
+<!-- Formulario para agregar un nuevo comentario -->
+<h2>Agregar un comentario</h2>
+<form th:action="@{/receta/detalles/comentario}" method="post">
+    <input type="hidden" name="recetaId" th:value="${receta.id}" />
+    <input type="hidden" name="recetaNombre" th:value="${receta.nombre}" />
+    <div>
+        <label for="comentario">Comentario:</label><br />
+        <textarea name="comentario" id="comentario" rows="4" cols="50" required></textarea>
+    </div>
+    <div>
+        <label for="valoracion">Valoración (1-20):</label><br />
+        <input type="number" name="valoracion" id="valoracion" min="1" max="20" required />
+    </div>
+    <div>
+        <button type="submit">Enviar comentario</button>
+    </div>
+</form>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
         </div>
     </div>
 

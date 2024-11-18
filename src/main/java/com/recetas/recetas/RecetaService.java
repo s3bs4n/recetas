@@ -41,12 +41,6 @@ public class RecetaService {
         return response.getBody();
     }
 
-    // public List<String> obtenerRecetas() {
-    // // Simulación de recetas; este método debería conectar con una API o base de
-    // datos
-    // return List.of("qwdqwd", "Sushi", "Tacos al Pastor", "Pizza Margherita", "Pad
-    // Thai", "Ceviche", "Falafel", "Ramen", "Chili con Carne", "Brigadeiro");
-    // }
 
     public List<String> obtenerRecetas() {
         RestTemplate restTemplate = new RestTemplate();
@@ -86,4 +80,40 @@ public class RecetaService {
         // Realiza la solicitud POST
         return restTemplate.postForEntity(url, request, Receta.class);
     }
+
+
+
+    ///////////////////////////////////////////////////////////////////////////////////
+    /// 
+
+
+    public ResponseEntity<Comentario> agregarComentario(Comentario comentario) {
+        RestTemplate restTemplate = new RestTemplate();
+    
+        // Configura encabezados
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + TOKEN);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+    
+        // Configura la solicitud
+        HttpEntity<Comentario> request = new HttpEntity<>(comentario, headers);
+    
+        // URL del endpoint
+        String url = "http://localhost:8082/api/recetas/comentarios";
+    
+        // Realiza la solicitud POST
+        return restTemplate.postForEntity(url, request, Comentario.class);
+    }
+    
+
+
+
+
+
+
+
+
+
+
+
 }

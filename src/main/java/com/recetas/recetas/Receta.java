@@ -4,6 +4,7 @@ import java.util.List;
 
 public class Receta {
 
+    private Long id; // Agregamos el campo id
     private String nombre;
     private String tipoCocina;
     private String paisOrigen;
@@ -19,8 +20,9 @@ public class Receta {
     }
 
     // Constructor con parámetros
-    public Receta(String nombre, String tipoCocina, String paisOrigen, String dificultad, String instrucciones,
+    public Receta(Long id, String nombre, String tipoCocina, String paisOrigen, String dificultad, String instrucciones,
                   int tiempoCoccion, List<String> ingredientes, String fotografia, String videoUrl) {
+        this.id = id;
         this.nombre = nombre;
         this.tipoCocina = tipoCocina;
         this.paisOrigen = paisOrigen;
@@ -30,6 +32,14 @@ public class Receta {
         this.ingredientes = ingredientes;
         this.fotografia = fotografia;
         this.videoUrl = videoUrl;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     // Getters y setters
