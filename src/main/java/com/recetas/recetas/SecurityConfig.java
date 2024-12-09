@@ -14,10 +14,10 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/home", "/css/**", "/js/**", "/crearReceta","/login").permitAll() // Permite acceso público a
+                        .requestMatchers("/home", "/css/**", "/js/**", "/login").permitAll() // Permite acceso público a
                                                                                              // /home, login y recursos
                                                                                              // estáticos
-                        .requestMatchers("/receta/detalles/**").authenticated() // Requiere autenticación para los
+                        .requestMatchers("/crearReceta", "/receta/detalles/**").authenticated() // Requiere autenticación para crear recetas y ver detalles
                                                                                 // detalles de recetas
                         .anyRequest().authenticated() // Protege otras rutas
                 )

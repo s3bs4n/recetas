@@ -2,8 +2,6 @@
 
 package com.recetas.recetas;
 
-import com.recetas.recetas.RecetaService;
-import com.recetas.recetas.Receta;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -11,7 +9,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.Map;
@@ -24,25 +21,23 @@ public class RecetaController {
 
     @GetMapping("/home")
     public String mostrarRecetas(Model model) {
-        List<String> recetas = recetaService.obtenerRecetas(); // Obtener nombres desde la API
-        System.out.println(recetas); // Depuración: imprime los nombres para verificar
-        model.addAttribute("recetas", recetas); // Pasar los nombres al modelo
-        return "home"; // Retorna la página de recetas
+        List<String> recetas = recetaService.obtenerRecetas(); 
+        // System.out.println(recetas); 
+        model.addAttribute("recetas", recetas); 
+        return "home"; 
     }
 
     @GetMapping("/receta/detalles")
     public String obtenerDetalleReceta(@RequestParam("nombre") String nombreReceta, Model model) {
         Map<String, Object> recetaDetalles = recetaService.obtenerDetallesReceta(nombreReceta);
         model.addAttribute("receta", recetaDetalles);
-        return "detalleReceta"; // Página para los detalles de la receta
+        return "detalleReceta"; 
     }
 
 
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    ///
     @GetMapping("/crearReceta")
     public String mostrarFormulario() {
-        return "crearReceta"; // Renderiza el archivo crearReceta.html
+        return "crearReceta"; 
     }
 
 
@@ -51,14 +46,13 @@ public class RecetaController {
         ResponseEntity<Receta> response = recetaService.crearReceta(nuevaReceta);
 
         if (response.getStatusCode().is2xxSuccessful()) {
-            return "redirect:/home"; // Redirige al home si se creó correctamente
+            return "redirect:/home"; 
         } else {
-            return "error"; // Muestra una página de error en caso de fallo
+            return "error"; 
         }
     }
 
 
-/////////////////////////////////////////////////////////////////////////////////////////
 
 @PostMapping("/receta/detalles/comentario")
 public String agregarComentario(
@@ -67,7 +61,7 @@ public String agregarComentario(
         @RequestParam("comentario") String comentarioText,
         @RequestParam("valoracion") int valoracion
 ) {
-    // Construye el objeto Comentario
+
     Comentario comentario = new Comentario();
     comentario.setComentario(comentarioText);
     comentario.setValoracion(valoracion);
@@ -75,14 +69,13 @@ public String agregarComentario(
     receta.setId(recetaId);
     comentario.setReceta(receta);
 
-    // Llama al servicio para enviar el comentario
     ResponseEntity<Comentario> response = recetaService.agregarComentario(comentario);
 
     if (response.getStatusCode().is2xxSuccessful()) {
-        // Redirige de vuelta a la página de detalles de la receta
         return "redirect:/receta/detalles?nombre=" + recetaNombre;
     } else {
-        return "error"; // Maneja errores apropiadamente
+        return "error";
+
     }
 }
 

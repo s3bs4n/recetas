@@ -19,7 +19,7 @@ import java.util.Map;
 public class RecetaService {
 
     private static final String API_URL = "http://localhost:8082/api/recetas/buscar";
-    private static final String TOKEN = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImF1dGhvcml0aWVzIjpbIlJPTEVfVVNFUiJdLCJpYXQiOjE3MzE4NjUxOTUsImV4cCI6MTczMjcyOTE5NX0.1gNztFGRrm_6r0-Hb6joE_JehH41L2E7KSwGdn9llNHHITJn7-w-QuYIbrh_q6cbh8q7vASyWl3it310DIn_Pw";
+    private static final String TOKEN = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImF1dGhvcml0aWVzIjpbIlJPTEVfVVNFUiJdLCJpYXQiOjE3MzM3NjA1NTYsImV4cCI6MTczNDYyNDU1Nn0.W2on1NTBLh6c-SP55jEQ0GOt7I1Kuq8ajQQKmB0cGV-ntBf2SUHWWT4OdNa6F6P2ra0rxQT4kH8_9hItHDfhcg";
 
     public Map<String, Object> obtenerDetallesReceta(String nombreReceta) {
         RestTemplate restTemplate = new RestTemplate();

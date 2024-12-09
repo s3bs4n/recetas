@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detalles de la Receta</title>
     <style>
-        /* Estilos para la página de detalles */
         .detalle-receta-container {
             max-width: 800px;
             margin: 0 auto;
@@ -58,17 +57,13 @@
         .detalle-recetas-wrapper {
             display: flex;
             gap: 20px;
-            /* Espacio entre las cajas */
             justify-content: center;
-            /* Centra las cajas horizontalmente */
             flex-wrap: wrap;
-            /* Permite que las cajas pasen a otra fila si el espacio es insuficiente */
             margin: 20px auto;
-            /* Centrado global */
         }
         .caja-ancha {
-    flex: 2; /* La caja ocupará el doble de espacio que las demás */
-    max-width: 50%; /* Ajusta este porcentaje según necesites */
+    flex: 2; 
+    max-width: 50%; 
 }
 
     </style>
@@ -78,9 +73,7 @@
     <div class="detalle-recetas-wrapper">
 
         <div class="detalle-receta-container">
-            <!-- <h1 class="detalle-titulo" th:text="${receta.nombre}">Nombre de la Receta</h1>
-              -->
-            
+
             <div class="detalle-info">
                 <div class="detalle-imagen">
                         <img th:src="${receta.fotografia}" alt="Imagen de la receta" width="560" height="315" />
@@ -101,8 +94,6 @@
                 <p><strong>Instrucciones:</strong></p>
                 <p th:text="${receta.instrucciones}">Instrucciones</p>
             </div>
-
-
 
 
             <div class="detalle-video">
@@ -128,11 +119,6 @@
                 <p>No hay comentarios disponibles.</p>
             </div>
 
-
-
-
-            
-<!-- Formulario para agregar un nuevo comentario -->
 <h2>Agregar un comentario</h2>
 <form th:action="@{/receta/detalles/comentario}" method="post">
     <input type="hidden" name="recetaId" th:value="${receta.id}" />
@@ -150,16 +136,6 @@
     </div>
 </form>
 </div>
-
-
-
-
-
-
-
-
-
-
 
 
 
